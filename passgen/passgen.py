@@ -1,8 +1,8 @@
 import random
-import webbrowser
 #imports ttk as well as messagebox
 from tkinter import *
 from ttkbootstrap import *
+import webbrowser
 
 class Window:
     # list of all characters
@@ -17,7 +17,7 @@ class Window:
         '~', '>', '*', '<', '!'
         ]
 
-    def genPassword(self, pass_length):
+    def genPassword(self):
         password = ''
         i = 0
 
@@ -39,6 +39,9 @@ class Window:
             i+= 1
 
         return password
+
+    def help(self):
+        webbrowser.open('help.html')
     
     def view(self):
         pass
@@ -49,8 +52,26 @@ class Window:
     def save(self):
         pass
 
-    def erase(self):
+    def delete(self):
         pass
+    
+    def select(self):
+        pass
+
+    def clearTable(self):
+        pass
+
+    def clearInputs(self):
+        pass
+    
+    def refresh(self):
+        pass
+    
+    def insert(self):
+        pass
+    
+    def rightClickMenu(self, event):
+        self.menu.tk_popup(event.x_root+12, event.y_root)
 
     def __init__(self, root, title, winsize):
         self.root = root
@@ -76,7 +97,7 @@ class Window:
             row=1, column=0, padx=10, pady=10
         )
         ttk.Entry(
-            self.root, width=30, textvariable=self.username,
+            self.root, width=30, textvariable=self.passwd,
         ).grid(row=1, column=1, padx=10, pady=10)
 
         # Website label and text entry
@@ -84,7 +105,7 @@ class Window:
             row=2, column=0, padx=10, pady=10
         )
         ttk.Entry(
-            self.root, width=30, textvariable=self.username,
+            self.root, width=30, textvariable=self.website,
         ).grid(row=2, column=1, padx=10, pady=10)
 
         passlen = ttk.Combobox(
@@ -107,7 +128,7 @@ class Window:
 
         ttk.Button(
         self.root, text='Delete', style='danger.TButton', width=20, padding=5, 
-        command=self.erase
+        command=self.delete
         ).grid(row=3, column=0)
 
         ttk.Button(
@@ -120,9 +141,45 @@ class Window:
         command=self.view
         ).grid(row=3, column=1)
 
-
+        # Table to display usernames, passwords, and sites
+        self.tree = ttk.Treeview(self.root, height=5)
+        self.tree['columns'] = ('site', 'user', 'pass')
+        self.tree.column('#0', width=0, stretch=NO)
+        self.tree.column('site', width=160, anchor=W)
+        self.tree.column('user', width=140, anchor=W)
+        self.tree.column('pass', width=180, anchor=W)
         
+        self.tree.heading('#0', text='')
+        self.tree.heading('site', text='Website')
+        self.tree.heading('user', text='Username')
+        self.tree.heading('pass', text='Password')
 
+        self.tree.grid(row=4, column=0, columnspan=3, pady=10)
+        # this calls the 'select' function
+        # that takes the row and fills its respective data to inputs
+        self.tree.bind("<ButtonRelease-1>", self.select)
+
+
+        # creates the right-click popup menu
+        self.menu = Menu(self.root, tearoff=False)
+        self.menu.add_command(label='Refresh', command=self.refresh)
+        self.menu.add_command(label='Update', command=self.update)
+        self.menu.add_command(label='Insert', command=self.insert)
+        self.menu.add_separator()
+
+        self.menu.add_command(label='Show All', command=self.view)
+        self.menu.add_command(label='Clear Table', command=self.clearTable)
+        self.menu.add_command(label='Clear Fields', command=self.clearInputs)
+        self.menu.add_separator()
+
+        self.menu.add_command(label='Delete', command=self.delete)
+        self.menu.add_command(label='Help', command=self.help)
+        self.menu.add_separator()
+
+        self.menu.add_command(label='Exit', command=self.root.quit)
+        # this binds the right mouse button to a function that creates the popup
+        self.root.bind("<Button-3>", self.rightClickMenu)
+        
 
 w = Style(theme='darkly').master
 name = 'FPG: FOSS Password Generator'
