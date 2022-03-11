@@ -39,6 +39,18 @@ class Window:
             i+= 1
 
         return password
+    
+    def view(self):
+        pass
+
+    def update(self):
+        pass
+
+    def save(self):
+        pass
+
+    def erase(self):
+        pass
 
     def __init__(self, root, title, winsize):
         self.root = root
@@ -83,6 +95,33 @@ class Window:
         passlen['state'] = 'readonly'
         self.length.set('Set Password Length')
 
+        ttk.Button(
+            self.root, text='Generate Password', style='success.TButton', width=20, padding=5, 
+            command=self.genPassword
+            ).grid(row=1, column=2)
+
+        ttk.Button(
+            self.root, text='Save', style='success.TButton', width=20, padding=5, 
+            command=self.save
+            ).grid(row=3, column=2)
+
+        ttk.Button(
+        self.root, text='Delete', style='danger.TButton', width=20, padding=5, 
+        command=self.erase
+        ).grid(row=3, column=0)
+
+        ttk.Button(
+        self.root, text='View All Passwords', width=20, padding=5, 
+        command=self.view
+        ).grid(row=3, column=0)
+        
+        ttk.Button(
+        self.root, text='Update Password', width=20, padding=5, 
+        command=self.view
+        ).grid(row=3, column=1)
+
+
+        
 
 
 w = Style(theme='darkly').master
