@@ -1,0 +1,2 @@
+# PASSGEN FOSS Password Manager
+
