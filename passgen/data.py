@@ -1,4 +1,5 @@
 import sqlite3 as sq
+from cryptography.fernet import Fernet
 
 db = 'data.db'
 
@@ -8,8 +9,8 @@ def connect():
     con.execute(
         """
             CREATE TABLE IF NOT EXISTS data (
-                user text,
                 site text,
+                user text,
                 password text primary key
             )
         """
@@ -21,7 +22,7 @@ def connect():
 def enter(user, site, passwd):
     connection = sq.connect(db)
     con = connection.cursor()
-    con.execute("INSERT INTO data VALUES(?,?,?)", (user, site, passwd))
+    con.execute("INSERT INTO data VALUES(?,?,?)", (site, user, passwd))
     connection.commit()
     connection.close()
 

@@ -7,6 +7,7 @@ from ttkbootstrap import *
 import webbrowser
 import data
 
+
 class Window:
     # list of all characters
     lower_case = [
@@ -19,7 +20,7 @@ class Window:
         '@', '#', '$', '%', '=', ':', '?', '.', '/', '|',
         '~', '>', '*', '<', '!'
         ]
-
+    
     def genPassword(self):
         password = ''
         i = 0
@@ -44,6 +45,8 @@ class Window:
         except:
             messagebox.showerror('Attention!', 'Password Length not set')
 
+        password
+
         return self.passwd.set(password)
 
     def help(self):
@@ -55,34 +58,35 @@ class Window:
         self.view()
 
     def view(self):
-
         self.clearTable()
+
         # method shows all data from the database
         if data.checkIfEmpty() is False:
             for row in data.show():
                 self.tree.insert(
                     parent='', text='', index='end',
-                    values=(row[2], row[0], row[1])
+                    values=(row[1], row[0], row[2])
                 )
+               
         else:
             messagebox.showerror('Whoops!', 'Looks like the database is empty')
 
     def update(self):
         selected_row = self.tree.focus()
         val = self.tree.item(selected_row, 'value')
-        data.edit(self.username.get(), self.website.get(), self.passwd.get())
+        data.edit(self.website.get(), self.username.get(), self.passwd.get())
         self.refresh()
 
     def save(self):
         try:
-            data.enter(self.username.get(), self.passwd.get(), self.website.get())
+            data.enter(self.website.get(), self.username.get(), self.passwd.get())
             self.tree.insert(
                 parent='', index='end', text='',
-                values=(self.username.get(), self.website.get(), self.passwd.get())
+                values=(self.website.get(), self.username.get(), self.passwd.get())
                 )
             self.refresh()
-        except:
-            messagebox.showerror('Whoops!', 'Looks like that password already exists, try again!')
+        except Exception as e:
+            messagebox.showerror('Whoops!', '{0}'.format(e))
 
     def delete(self):
         try:
@@ -90,8 +94,8 @@ class Window:
             value = self.tree.item(selected_row, 'value')
             data.Delete(value[2])
             self.refresh()
-        except:
-            messagebox.showerror('Whoops!', 'No row selected')
+        except Exception as e:
+            messagebox.showerror('Whoops!', e)
 
     def select(self, event):
         self.passwd.set('')
@@ -99,9 +103,9 @@ class Window:
         self.website.set('')
         selected_row = self.tree.focus()
         value = self.tree.item(selected_row, 'value')
+        self.website.set(value[0])
         self.username.set(value[1])
         self.passwd.set(value[2])
-        self.website.set(value[0])
 
 
     def clearTable(self):
@@ -109,9 +113,9 @@ class Window:
             self.tree.delete(row)
 
     def clearInputs(self):
+        self.website.set('')
         self.username.set('')
         self.passwd.set('')
-        self.website.set('')
     
     def insert(self):
         pass
@@ -119,6 +123,9 @@ class Window:
     
     def rightClickMenu(self, event):
         self.menu.tk_popup(event.x_root+1, event.y_root+1)
+
+    def decrypt(enc):
+        pass
 
     def __init__(self, root, title, winsize):
         self.root = root
@@ -230,7 +237,7 @@ class Window:
 
 w = Style(theme='darkly').master
 name = 'FPG: FOSS Password Generator'
-dimension = '720x480'
+dimension = '565x380'
 
 app = Window(w, name, dimension)
 w.mainloop()
