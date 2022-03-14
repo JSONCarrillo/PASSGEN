@@ -10,7 +10,7 @@ PASSGEN is a Free and Open Source Password Manager built using Python.
 
 ---
 
-Users open the EXE file and are greeted with a tkinter-based GUI. 
+Users open the EXE file found in 'dist' folder and are greeted with a tkinter-based GUI. 
 
 Users can then generate a password and save it to an sqlite database, delete password profiles, as well as edit password attributed usernames and websites.
 
@@ -20,7 +20,7 @@ Passwords are generated in lengths from 8-24 using lower & upper case letters, n
 PASSGEN uses ttkbootstrap, tkinter, pillow, and pyinstall. 
 CD into PASSGEN directory and run command:
 
-`pip install -r passgen/dependencies.txt'
+`pip install -r passgen/dependencies.txt`
 
 This should install all neccassary dependencies.
 
