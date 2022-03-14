@@ -1,0 +1,2 @@
+ttkbootstrap==1.7.3
+pyinstaller==4.10
