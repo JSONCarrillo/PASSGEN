@@ -7,6 +7,8 @@ from ttkbootstrap import *
 import webbrowser
 import data
 
+#Just testing something
+
 
 class Window:
     # list of all characters
